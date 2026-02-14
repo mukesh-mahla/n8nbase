@@ -12,7 +12,8 @@ import { Button } from "@/components/ui/button"
 import {Card, CardContent, CardDescription,  CardHeader, CardTitle} from "@/components/ui/card"
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
-import { cn } from "@/lib/utils"
+
+import { authClient } from "@/lib/auth_client"
 
 const loginFormSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -33,7 +34,20 @@ export function LoginForm(){
     })
 
     const onSubmit = async (data: LoginFormValues) => {
-        console.log("Form Data:", data) 
+        await authClient.signIn.email({
+          email:data.email,
+          password:data.password,
+          callbackURL:"/"
+        },
+        {
+          onSuccess:()=>{
+            router.push("/")
+          },
+          onError:(err)=>{
+            toast.error(err.error.message)
+          }
+        }
+      )
     }
     const ispending = form.formState.isSubmitting
 

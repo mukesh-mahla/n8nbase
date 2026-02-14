@@ -1,7 +1,10 @@
 
 import { LoginForm } from "@/features/auth/components/login-form"
+import { requireAuth } from "@/lib/auth-utils"
 
-const Page = ()=>{
+const Page = async()=>{
+await requireAuth()
+
     return (
         <div>
           <LoginForm />

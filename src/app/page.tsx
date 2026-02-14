@@ -1,16 +1,15 @@
-"use client"
+import { requireAuth } from "@/lib/auth-utils"
+import { caller } from "@/trpc/server"
 
-import { useTRPC } from "@/trpc/client"
-import {  useQuery } from "@tanstack/react-query"
+const Page = async() =>{
+ await requireAuth()
 
-
-const Page = () =>{
-const trpc = useTRPC()
-const {data : users} = useQuery(trpc.getUsers.queryOptions())
-  return <div>
-    this is the landing page
+ const data = await caller.getUsers()
+  return <div className="justify-center items-center flex h-screen w-screen text-center">
+    
     <div>
-   {JSON.stringify(users)}
+      {JSON.stringify(data)}
+   protected server component
    </div>
   </div>
 

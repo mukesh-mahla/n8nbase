@@ -12,9 +12,11 @@ import { Button } from "@/components/ui/button"
 import {Card, CardContent, CardDescription,  CardHeader, CardTitle} from "@/components/ui/card"
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
-import { cn } from "@/lib/utils"
 
-const signinSchema = z.object({
+import { authClient } from "@/lib/auth_client"
+
+
+const signUpSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(6, "Password must be at least 6 characters long"),
   confirmPassword: z.string()
@@ -23,13 +25,13 @@ const signinSchema = z.object({
     path: ["confirmPassword"],
 })
 
-type SignUpFormValue = z.infer<typeof signinSchema>  
+type SignUpFormValue = z.infer<typeof signUpSchema>  
 
 export function SignUpForm(){
 
     const router = useRouter()
     const form= useForm<SignUpFormValue>({
-        resolver: zodResolver(signinSchema),
+        resolver: zodResolver(signUpSchema),
         defaultValues: {
             email: "",
             password: "",
@@ -38,7 +40,25 @@ export function SignUpForm(){
     })
 
     const onSubmit = async (data: SignUpFormValue) => {
-        console.log("Form Data:", data) 
+      console.log("dfhgf")
+       console.log(data)
+        await authClient.signUp.email(
+          {
+            name: data.email,
+            email: data.email,
+            password: data.password,
+            callbackURL:"/"
+          },
+          {
+             onSuccess:()=>{
+              router.push("/")
+             },
+             onError:(ctx)=>{
+              toast.error(ctx.error.message)
+             }
+              
+          }
+        )
     }
     const ispending = form.formState.isSubmitting
 
