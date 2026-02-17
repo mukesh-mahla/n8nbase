@@ -7,6 +7,7 @@ import { usePathname,useRouter } from "next/navigation"
 import { Sidebar,SidebarContent,SidebarFooter,SidebarGroup,SidebarGroupContent,SidebarHeader,SidebarMenu,SidebarMenuButton,SidebarMenuItem } from "./ui/sidebar"
 
 import { authClient } from "@/lib/auth_client"
+import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscription"
     const menuItems= [{
         title:"Main",
         items:[
@@ -31,6 +32,7 @@ import { authClient } from "@/lib/auth_client"
     export const AppSidebar = ()=>{
    const router = useRouter()
    const pathName = usePathname()
+   const {hasActiveSubscription,isLoading} = useHasActiveSubscription()
 
         return (
             <Sidebar collapsible="icon">
@@ -72,22 +74,23 @@ import { authClient } from "@/lib/auth_client"
                </SidebarContent>
                <SidebarFooter>
                 <SidebarMenu>
+                    {!isLoading && !hasActiveSubscription && (
                     <SidebarMenuItem>
                         <SidebarMenuButton
                         tooltip={"Upgarde to Pro"}
                         className="gap-x-4 h-10 px-4"
-                        onClick={()=>{}}
+                        onClick={()=>{authClient.checkout({slug:"pro"})}}
                         >
                             <StarIcon className="h-4 w-4"/>
                             <span>Upgarde to Pro</span>
 
                         </SidebarMenuButton>
-                    </SidebarMenuItem>
+                    </SidebarMenuItem>)}
                     <SidebarMenuItem>
                         <SidebarMenuButton
                         tooltip={"Billing Portal"}
                         className="gap-x-4 h-10 px-4"
-                        onClick={()=>{}}
+                        onClick={()=>{authClient.customer.portal()}}
                         >
                             <CreditCardIcon className="h-4 w-4"/>
                             <span>Billing Portal</span>
