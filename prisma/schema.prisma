@@ -16,6 +16,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   accounts      Account[]
   sessions      Session[]
+  workflows      Workflow[]
 
   @@map("user")
 }
@@ -67,7 +68,11 @@ model Verification {
   @@map("verification")
 }
 
-model workflow {
+model Workflow {
   id   String @id @default(cuid())
-  name String
+  name String 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String
+  user User @relation(fields: [userId], references: [id],onDelete: Cascade) 
 }
