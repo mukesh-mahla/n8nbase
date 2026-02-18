@@ -5,7 +5,7 @@ import { useUpgradeModal } from "@/hooks/use-upgrade-modal"
 import { useRouter } from "next/navigation"
 
 export const WorkflowsList = ()=>{
-    const router = useRouter()
+   
     const workflows = useSuspanseWorkflows()
     return (
         <p>
@@ -15,6 +15,7 @@ export const WorkflowsList = ()=>{
 }
 
 export const Workflowsheaders = ({disabled}:{disabled?:boolean})=>{
+     const router = useRouter()
     const createWorkflow = useCreateWorkflow()
     const {handelError,modal} = useUpgradeModal()
     const handelCreate = ()=>{
