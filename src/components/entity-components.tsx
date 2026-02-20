@@ -67,7 +67,7 @@ type EntityContainerProps={
 
 export const EntityContainer = ({children,header,search,pagination}:EntityContainerProps)=>{
     return <div className="p-4 md:px-10 md:py-6 h-full">
-      <div className="mx-auto max-w-screen-xl w-full flex flex-col gap-y-8 h-full">
+      <div className="mx-auto max-w-screen-7xl w-full flex flex-col gap-y-8 h-full">
         {header}
      
       <div className="flex flex-col gap-y-4 h-full">
@@ -273,7 +273,7 @@ export const EntityItems = ({href,title,subtitle,image,action,onRemove,isRemovin
                                 </DropdownMenuTrigger>
                              <DropdownMenuContent align="end" onClick={(e)=>e.stopPropagation()}>
                                 <DropdownMenuItem onClick={handelRemove}>
-                                    <TrashIcon className="size-4">Delete</TrashIcon>
+                                    <TrashIcon className="size-4"></TrashIcon> Delete
                                 </DropdownMenuItem>
                              </DropdownMenuContent>   
                             </DropdownMenu>
