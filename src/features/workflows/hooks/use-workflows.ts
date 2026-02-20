@@ -6,6 +6,7 @@ import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-q
 import { toast } from "sonner"
 import { useWorkflowsParams } from "./use-workflows-params"
 
+
 // hook to fetch all workflow using suspanse
 
 export const useSuspanseWorkflows=()=>{
@@ -34,4 +35,20 @@ export const useCreateWorkflow = ()=>{
         }
     }))
 
+}
+
+// hook to remove a workflow
+
+export const useRemoveWorkflow = ()=>{
+    const trpc = useTRPC()
+    const queryClient = useQueryClient()
+
+    return useMutation(trpc.workflows.remove.mutationOptions({
+        onSuccess:(data)=>{
+            toast.success(`workflow "${data.name}" removed`)
+              queryClient.invalidateQueries(trpc.workflows.getMany.queryOptions({}))
+              queryClient.invalidateQueries(trpc.workflows.getOne.queryFilter({id:data.id}))
+        }
+        
+    }))
 }
