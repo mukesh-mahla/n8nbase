@@ -6,11 +6,31 @@ import {Breadcrumb,BreadcrumbItem,BreadcrumbLink,BreadcrumbList,BreadcrumbSepara
 import {Input} from "@/components/ui/input"
 import { useEffect,useState,useRef } from "react"
 import Link from "next/link"
-import { useSuspanseWorkflow, useUpdateWorkflowName } from "@/features/workflows/hooks/use-workflows"
+import { useSuspanseWorkflow, useUpdateWorkflow, useUpdateWorkflowName } from "@/features/workflows/hooks/use-workflows"
+import { useAtomValue } from "jotai"
+import { editorAtom } from "./atoms"
 export const EditorSaveButton = ({workflowId}:{workflowId:string})=>{
 
+    const editor = useAtomValue(editorAtom)
+    const saveWorkflow = useUpdateWorkflow()
+
+    const handelSave = ()=>{
+        if(!editor){
+            return
+        }
+
+        const nodes = editor.getNodes()
+        const edges = editor.getEdges()
+
+        saveWorkflow.mutate({
+            id:workflowId,
+            nodes,
+            edges
+        })
+    }
+        
     return <div className="ml-auto ">
-          <Button size="sm" onClick={()=>{}} disabled={false}>
+          <Button size="sm" onClick={handelSave} disabled={saveWorkflow.isPending}>
             <SaveIcon className="size-4"/>save
           </Button>
     </div>
