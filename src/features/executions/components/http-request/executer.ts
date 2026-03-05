@@ -3,6 +3,7 @@ import { NonRetriableError } from "inngest";
 import ky,{type Options as kyOptions} from "ky"
 
 type httpRequestData = {
+   variableName?:string
    endpoint?:string,
    method?:"GET" | "POST" | "PUT" | "DELETE" | "PATCH",
    body?:string
@@ -11,6 +12,10 @@ export const httpRequestExecuter:NodeExecuter<httpRequestData> = async ({data,co
     
    if(!data.endpoint){
       throw new NonRetriableError("endpoint is missing for http request node")
+   }
+
+   if(!data.variableName){
+      throw new NonRetriableError("variable name not configured ")
    }
 
   const result =  await step.run("http-request",async ()=>{
@@ -22,22 +27,30 @@ export const httpRequestExecuter:NodeExecuter<httpRequestData> = async ({data,co
    if(["POST","PUT","PATCH"].includes(method) && data.body){
       if(data.body){
          options.body = data.body
+         options.headers = {"Content-Type":"application/json"
+         }
       }
    }
+
    const response = await ky(endpoint,options)
    const contentType = response.headers.get("content-type")
    const responseData = contentType?.includes("application/json") ? await response.json() : await response.text()
-   return {...context,httpResponse:{
+
+   const responsePayload = {
+      httpResponse:{
       status:response.status,
       statusText:response.statusText,
       data:responseData
-   }}
+   }
+   }
 
+   return {
+      ...context,
+      [data.variableName!]:responsePayload
+}
   })
     
-   //   const result = await step.run("http-request",async ()=>{
-   //      return context
-   //   })
+   
 
      return result
 }
