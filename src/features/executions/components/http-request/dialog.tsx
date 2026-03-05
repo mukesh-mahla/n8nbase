@@ -54,6 +54,7 @@ useEffect((()=>{
 
 const watchMethod  = form.watch("method")
 const showBodyField = ["POST","PUT","PATCH"].includes(watchMethod)
+
 const handelSubmit = (values:z.infer<typeof formSchema>)=>{
 onSubmit(values)
 onOpenChange(false)

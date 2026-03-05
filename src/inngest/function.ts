@@ -5,6 +5,8 @@ import { NonRetriableError } from "inngest";
 import { Workflow } from "lucide-react";
 import prisma from "@/lib/db";
 import { topologicalSort } from "./utils";
+import { NodeType } from "@prisma/client";
+import { getExecuter } from "@/features/executions/lib/executer-registry";
 
 
  
@@ -33,7 +35,22 @@ export const executeWorkflow = inngest.createFunction(
         return topologicalSort(workflow.nodes,workflow.connections)
     })
 
-     return {sortedNodes}
+    // initialize the context with any initial data from the trigger
+
+
+    let context = event.data.initialData || {}
+     
+    for(const node of sortedNodes){
+      const executer = getExecuter(node.type as NodeType)
+      context  = await executer({
+        data:node.data as Record<string,unknown>,
+        context,
+        step,
+        nodeId:node.id
+      })
+    }
+
+     return {workflowId,result:context}
   }
 );
 

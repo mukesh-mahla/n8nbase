@@ -3,6 +3,7 @@ import { inngest } from "@/inngest/client";
 import prisma from "@/lib/db";
 import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
 import {  NodeType } from "@prisma/client";
+import { init } from "@sentry/nextjs";
 import type { Node } from "@xyflow/react";
 import type { Edge } from "@xyflow/react";
 
@@ -21,7 +22,8 @@ export const workflowsRouter = createTRPCRouter({
         await inngest.send({
             name:"workflow/execute.workflow",
             data:{
-                id:input.id
+                id:input.id,
+               
             }
            
         })
