@@ -9,6 +9,7 @@ import { NodeType } from "@prisma/client";
 import { getExecuter } from "@/features/executions/lib/executer-registry";
 import { httpRequestChannel } from "./channels/http-request";
 import { manualTriggerChannel } from "./channels/manual-trigger";
+import { googleFormTriggerChannel } from "./channels/google-form-trigger";
 
 
  
@@ -17,7 +18,7 @@ export const executeWorkflow = inngest.createFunction(
     retries:0 // change in produnction
    },
   { event: "workflow/execute.workflow"
-    ,channel:[httpRequestChannel(),manualTriggerChannel()]
+    ,channel:[httpRequestChannel(),manualTriggerChannel(),googleFormTriggerChannel()]
    },
 
  

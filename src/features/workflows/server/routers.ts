@@ -1,5 +1,6 @@
 import { PAGINATION } from "@/config/constant";
 import { inngest } from "@/inngest/client";
+import { sendExecutions } from "@/inngest/utils";
 import prisma from "@/lib/db";
 import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
 import {  NodeType } from "@prisma/client";
@@ -19,13 +20,10 @@ export const workflowsRouter = createTRPCRouter({
             }
         }) 
         
-        await inngest.send({
-            name:"workflow/execute.workflow",
-            data:{
-                id:input.id,
-               
-            }
-           
+        
+
+        await sendExecutions({
+            workflowId:input.id
         })
 
         return workflow
