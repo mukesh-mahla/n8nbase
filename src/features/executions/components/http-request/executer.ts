@@ -1,11 +1,18 @@
 import type { NodeExecuter } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import ky,{type Options as kyOptions} from "ky"
+import Handlebars from "handlebars"
+
+ Handlebars.registerHelper("json",(context)=>{
+   const jsonstringfy = JSON.stringify(context,null,2)
+   const safeString = new Handlebars.SafeString(jsonstringfy)
+   return safeString
+})
 
 type httpRequestData = {
-   variableName?:string
-   endpoint?:string,
-   method?:"GET" | "POST" | "PUT" | "DELETE" | "PATCH",
+   variableName:string
+   endpoint:string,
+   method:"GET" | "POST" | "PUT" | "DELETE" | "PATCH",
    body?:string
 }
 export const httpRequestExecuter:NodeExecuter<httpRequestData> = async ({data,context,step,nodeId})=>{
@@ -17,18 +24,24 @@ export const httpRequestExecuter:NodeExecuter<httpRequestData> = async ({data,co
    if(!data.variableName){
       throw new NonRetriableError("variable name not configured ")
    }
+   
+   if(!data.variableName){
+      throw new NonRetriableError("method not configured not configured ")
+   }
 
   const result =  await step.run("http-request",async ()=>{
-   const endpoint = data.endpoint! 
-   const method = data.method || "GET"
+   const endpoint = Handlebars.compile(data.endpoint)(context)
+   const method = data.method 
 
    const options:kyOptions = {method}
 
    if(["POST","PUT","PATCH"].includes(method) && data.body){
-      if(data.body){
-         options.body = data.body
+      const resolved = Handlebars.compile(data.body || "{}")(context)
+      JSON.parse(resolved)
+     
+         options.body = resolved
          options.headers = {"Content-Type":"application/json"
-         }
+         
       }
    }
 
@@ -46,7 +59,7 @@ export const httpRequestExecuter:NodeExecuter<httpRequestData> = async ({data,co
 
    return {
       ...context,
-      [data.variableName!]:responsePayload
+      [data.variableName]:responsePayload
 }
   })
     
