@@ -2,12 +2,14 @@ import { sendExecutions } from "@/inngest/utils";
 import { time } from "console";
 import { type NextRequest, NextResponse } from "next/server";
 import { send } from "process";
+import { success } from "zod";
 
 
 export async function POST(request: NextRequest) {
   try {
      const url = new URL(request.url);
      const workflowId = url.searchParams.get("workflowId");
+     
 
      if (!workflowId) {
       return NextResponse.json({
@@ -36,6 +38,10 @@ export async function POST(request: NextRequest) {
         googleForm: formData
        }
      })
+
+      return NextResponse.json({success:true,workflowId:workflowId},{status:200})
+
+
 
   } catch (err) {
     console.error("Google Form webhook error", err);

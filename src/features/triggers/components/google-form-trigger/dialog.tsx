@@ -20,7 +20,8 @@ export const GoogleFormTriggerDialog = ({ open, onOpenChange }: GoogleFormTrigge
 
     //  construct the webhook url
     const baseURL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    const webHookUrl = `${baseURL}/api/webhooks/google-form?workflowId = ${workflowId}`
+    const webHookUrl = `${baseURL}/api/webhooks/google-form?workflowId=${workflowId}`
+    
 
     const copyToClipBoard = async () => {
         try {
