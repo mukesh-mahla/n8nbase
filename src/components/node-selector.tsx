@@ -36,6 +36,12 @@ const triggerNodes: NodeTypeOption[] = [
         label: "Google Form",
         description: "Runs the flow when the form is submitted",
         icon: "/google-forms.svg"
+    },
+    {
+        type: NodeType.STRIPE_TRIGGER,
+        label: "stripe trigger",
+        description: "Runs the flow when the stripe event happen",
+        icon: "/stripe.svg"
     }
 ]
 

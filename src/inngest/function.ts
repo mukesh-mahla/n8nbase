@@ -1,8 +1,7 @@
 
-import { th } from "date-fns/locale";
 import { inngest } from "./client";
 import { NonRetriableError } from "inngest";
-import { Workflow } from "lucide-react";
+
 import prisma from "@/lib/db";
 import { topologicalSort } from "./utils";
 import { NodeType } from "@prisma/client";
@@ -10,6 +9,7 @@ import { getExecuter } from "@/features/executions/lib/executer-registry";
 import { httpRequestChannel } from "./channels/http-request";
 import { manualTriggerChannel } from "./channels/manual-trigger";
 import { googleFormTriggerChannel } from "./channels/google-form-trigger";
+import { StripeTriggerChannel } from "./channels/Stripe-trigger";
 
 
  
@@ -18,7 +18,7 @@ export const executeWorkflow = inngest.createFunction(
     retries:0 // change in produnction
    },
   { event: "workflow/execute.workflow"
-    ,channel:[httpRequestChannel(),manualTriggerChannel(),googleFormTriggerChannel()]
+    ,channel:[httpRequestChannel(),manualTriggerChannel(),googleFormTriggerChannel(),StripeTriggerChannel()]
    },
 
  

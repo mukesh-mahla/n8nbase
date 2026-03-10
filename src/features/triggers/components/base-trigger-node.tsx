@@ -55,7 +55,7 @@ export const BaseTriggerNode = memo(
                             )
                         }
                         {children}
-
+                        
 
 
                         <BaseHandle

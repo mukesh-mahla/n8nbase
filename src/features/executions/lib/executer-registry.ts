@@ -9,7 +9,8 @@ export const execuerRegistry: Record<NodeType,NodeExecuter<any>> = {
 [NodeType.MANUAL_TRIGGER]:manualTriggerExecuter,
 [NodeType.INITIAL]:manualTriggerExecuter,
 [NodeType.HTTP_REQUEST]:httpRequestExecuter,
-[NodeType.GOOGLE_FORM_TRIGGER]:googleFormTriggerExecuter 
+[NodeType.GOOGLE_FORM_TRIGGER]:googleFormTriggerExecuter ,
+[NodeType.STRIPE_TRIGGER]:googleFormTriggerExecuter // to be changed when we have stripe trigger executer
 }
 
 export const getExecuter = (type: NodeType):NodeExecuter =>{
