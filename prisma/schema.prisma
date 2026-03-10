@@ -85,6 +85,9 @@
     HTTP_REQUEST
     GOOGLE_FORM_TRIGGER
     STRIPE_TRIGGER
+    ANTHROPIC
+    GEMINI
+    OPENAI
   }
 
   model Node{

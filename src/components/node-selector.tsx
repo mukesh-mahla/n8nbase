@@ -51,6 +51,12 @@ const executionNodes: NodeTypeOption[] = [
         label: "HTTP Request",
         description: "Make an HTTP request to an API",
         icon: GlobeIcon
+    },
+    {
+        type: NodeType.GEMINI,
+        label: "Gemini",
+        description: "Make an api call to Gemini",
+        icon: "/gemini.svg"
     }
 ]
 
@@ -125,12 +131,12 @@ export function NodeSelector({ open, onOpenChange, children }: NodeSelectorProps
                     {triggerNodes.map((nodeType) => {
                         const Icon = nodeType.icon
                         return <div key={nodeType.type} onClick={() => { handelNodeSelect(nodeType) }}
-                         className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer 
+                            className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer 
                          border-l-2 border-transparent hover:border-l-primary '>
 
                             <div className='flex items-center gap-6 w-full overflow-hidden'>
-                                {typeof Icon === "string" ? (<img src={Icon} alt={nodeType.label} 
-                                className='size-5 object-contain rounded-sm' />) : (<Icon className='size-5' />)}
+                                {typeof Icon === "string" ? (<img src={Icon} alt={nodeType.label}
+                                    className='size-5 object-contain rounded-sm' />) : (<Icon className='size-5' />)}
 
                                 <div className='flex flex-col items-start text-left'>
                                     <span className='font-medium text-sm'>{nodeType.label}</span>
@@ -144,7 +150,7 @@ export function NodeSelector({ open, onOpenChange, children }: NodeSelectorProps
                 <div>
                     {executionNodes.map((nodeType) => {
                         const Icon = nodeType.icon
-                        return <div key={nodeType.type} onClick={() => {handelNodeSelect(nodeType) }} className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary '>
+                        return <div key={nodeType.type} onClick={() => { handelNodeSelect(nodeType) }} className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary '>
                             <div className='flex items-center gap-6 w-full overflow-hidden'>
                                 {typeof Icon === "string" ? (<img src={Icon} alt={nodeType.label} className='size-5 object-contain rounded-sm' />) : (<Icon className='size-5' />)}
                                 <div className='flex flex-col items-start text-left'>

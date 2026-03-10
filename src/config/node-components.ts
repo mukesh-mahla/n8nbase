@@ -5,13 +5,15 @@ import { NodeType } from "@prisma/client";
 import type { NodeTypes } from "@xyflow/react";
 import { GoogleFormTrigger } from "../features/triggers/components/google-form-trigger/node";
 import { StripeTrigger } from "@/features/triggers/components/stripe-trigger/node";
+import { GeminiNode } from "@/features/executions/components/gemini/node";
 
 export const nodeComponents = {
     [NodeType.INITIAL]:InitialNode,
     [NodeType.MANUAL_TRIGGER]:ManualTriggerNode,
     [NodeType.HTTP_REQUEST]:HttpRequestNode,
     [NodeType.GOOGLE_FORM_TRIGGER]:GoogleFormTrigger, 
-    [NodeType.STRIPE_TRIGGER]:StripeTrigger 
+    [NodeType.STRIPE_TRIGGER]:StripeTrigger ,
+    [NodeType.GEMINI]:GeminiNode
 
 } as const satisfies NodeTypes
 
