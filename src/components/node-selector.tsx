@@ -57,6 +57,18 @@ const executionNodes: NodeTypeOption[] = [
         label: "Gemini",
         description: "Make an api call to Gemini",
         icon: "/gemini.svg"
+    },
+    {
+        type: NodeType.ANTHROPIC,
+        label: "Anthropic",
+        description: "Make an api call to Anthropic",
+        icon: "/anthropic.svg"
+    },
+    {
+        type: NodeType.OPENAI,
+        label: "OpenAi",
+        description: "Make an api call to Anthropic",
+        icon: "/openai.svg"
     }
 ]
 

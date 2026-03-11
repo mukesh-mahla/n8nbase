@@ -6,6 +6,8 @@ import type { NodeTypes } from "@xyflow/react";
 import { GoogleFormTrigger } from "../features/triggers/components/google-form-trigger/node";
 import { StripeTrigger } from "@/features/triggers/components/stripe-trigger/node";
 import { GeminiNode } from "@/features/executions/components/gemini/node";
+import { AnthropicNode } from "@/features/executions/components/anthropic/node";
+import { OpenAiNode } from "@/features/executions/components/openai/node";
 
 export const nodeComponents = {
     [NodeType.INITIAL]:InitialNode,
@@ -13,8 +15,9 @@ export const nodeComponents = {
     [NodeType.HTTP_REQUEST]:HttpRequestNode,
     [NodeType.GOOGLE_FORM_TRIGGER]:GoogleFormTrigger, 
     [NodeType.STRIPE_TRIGGER]:StripeTrigger ,
-    [NodeType.GEMINI]:GeminiNode
-
+    [NodeType.GEMINI]:GeminiNode,
+    [NodeType.ANTHROPIC]:AnthropicNode, // to be changed when we have Anthropic node component
+    [NodeType.OPENAI]:OpenAiNode, // to be changed when we have OpenAI node component
 } as const satisfies NodeTypes
 
 export type RegisteredNodeType = keyof typeof nodeComponents

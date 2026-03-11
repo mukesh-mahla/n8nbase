@@ -11,6 +11,8 @@ import { manualTriggerChannel } from "./channels/manual-trigger";
 import { googleFormTriggerChannel } from "./channels/google-form-trigger";
 import { StripeTriggerChannel } from "./channels/Stripe-trigger";
 import { GeminiChannel } from "./channels/gemini";
+import { AnthropicChannel } from "./channels/anthropic";
+import { OpenAiChannel } from "./channels/openai";
 
 
  
@@ -19,7 +21,7 @@ export const executeWorkflow = inngest.createFunction(
     retries:0 // change in produnction
    },
   { event: "workflow/execute.workflow"
-    ,channel:[httpRequestChannel(),manualTriggerChannel(),googleFormTriggerChannel(),StripeTriggerChannel(),GeminiChannel()]
+    ,channel:[httpRequestChannel(),manualTriggerChannel(),googleFormTriggerChannel(),StripeTriggerChannel(),GeminiChannel(),AnthropicChannel(),OpenAiChannel()]
    },
 
  
