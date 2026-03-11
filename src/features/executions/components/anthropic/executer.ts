@@ -54,7 +54,7 @@ export const AnthropicExecuter: NodeExecuter<AnthropicData> = async ({
 
   try {
     const { steps } = await step.ai.wrap("anthropic-generate-text", generateText, {
-      model: anthropic( data.model ?? "claude-3-haiku-20240307"),
+      model: Anthropic( data.model ?? "claude-3-haiku-20240307"),
       system: systemPrompt,
       prompt: userPrompt,
       experimental_telemetry: {

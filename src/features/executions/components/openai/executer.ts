@@ -55,7 +55,7 @@ export const OpenaAiExecuter: NodeExecuter<OpenAiData> = async ({
   
 
   try {
-    const { steps } = await step.ai.wrap("anthropic-generate-text", generateText, {
+    const { steps } = await step.ai.wrap("openai-generate-text", generateText, {
       model: OpenAi( data.model ?? "gpt-4o"),
       system: systemPrompt,
       prompt: userPrompt,
