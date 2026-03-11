@@ -1,83 +1,75 @@
 import type { NodeExecuter } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
-import ky,{type Options as kyOptions} from "ky"
-import Handlebars from "handlebars"
-import { httpRequestChannel } from "@/inngest/channels/http-request";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { generateText } from "ai";
+import Handlebars from "handlebars";
 
- Handlebars.registerHelper("json",(context)=>{
-   const jsonstringfy = JSON.stringify(context,null,2)
-   const safeString = new Handlebars.SafeString(jsonstringfy)
-   return safeString
-})
+import { GeminiChannel } from "@/inngest/channels/gemini";
 
-type httpRequestData = {
-   variableName:string
-   endpoint:string,
-   method:"GET" | "POST" | "PUT" | "DELETE" | "PATCH",
-   body?:string,
-   
-}
-export const httpRequestExecuter:NodeExecuter<httpRequestData> = async ({data,context,step,nodeId,publish})=>{
+Handlebars.registerHelper("json", (context) => {
+  const jsonstringfy = JSON.stringify(context, null, 2);
+  const safeString = new Handlebars.SafeString(jsonstringfy);
+  return safeString;
+});
 
-   await publish(httpRequestChannel().status({nodeId,status:"loading"}))
-    
-   if(!data.endpoint){
-      await publish(httpRequestChannel().status({nodeId,status:"error"}))
-      throw new NonRetriableError("endpoint is missing for http request node")
-   }
+type GeminiData = {
+  variableName: string;
+  model?: string;
+  systemPrompt?: string;
+  userPrompt?: string;
+};
 
-   if(!data.variableName){
-      await publish(httpRequestChannel().status({nodeId,status:"error"}))
-      throw new NonRetriableError("variable name not configured ")
-   }
-   
-   if(!data.variableName){
-      await publish(httpRequestChannel().status({nodeId,status:"error"}))
-      throw new NonRetriableError("method not configured not configured ")
-   }
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY || "",
+});
 
-   try{
-    const result =  await step.run("http-request",async ()=>{
-   const endpoint = Handlebars.compile(data.endpoint)(context)
-   
-   const method = data.method 
+export const GeminiExecuter: NodeExecuter<GeminiData> = async ({
+  data,
+  context,
+  step,
+  nodeId,
+  publish,
+}) => {
 
-   const options:kyOptions = {method}
+  await publish(GeminiChannel().status({ nodeId, status: "loading" }));
 
-   if(["POST","PUT","PATCH"].includes(method) && data.body){
-      const resolved = Handlebars.compile(data.body || "{}")(context)
-      JSON.parse(resolved)
-     
-         options.body = resolved
-         options.headers = {"Content-Type":"application/json"
-         
-      }
-   }
+  if (!data.variableName) {
+    await publish(GeminiChannel().status({ nodeId, status: "error" }));
+    throw new NonRetriableError("Gemini Node variable name not configured ");
+  }
 
-   const response = await ky(endpoint,options)
-   const contentType = response.headers.get("content-type")
-   const responseData = contentType?.includes("application/json") ? await response.json() : await response.text()
+    if (!data.userPrompt) {
+    await publish(GeminiChannel().status({ nodeId, status: "error" }));
+    throw new NonRetriableError("Gemini Node userPrompt not configured ");
+  }
 
-   const responsePayload = {
-      httpResponse:{
-      status:response.status,
-      statusText:response.statusText,
-      data:responseData
-   }
-   }
 
-   return {
-      ...context,
-      [data.variableName]:responsePayload
-}
-  })
-    
-   await publish(httpRequestChannel().status({nodeId,status:"success"}))
+  const systemPrompt = data.systemPrompt
+    ? Handlebars.compile(data.systemPrompt)(context)
+    : "you are a helpful assistant";
 
-     return result
-     
-}catch(error){
-   await publish(httpRequestChannel().status({nodeId,status:"error"}))
-   throw error
-}
-}
+  const userPrompt = Handlebars.compile(data.userPrompt)(context);
+  
+
+  try {
+    const { steps } = await step.ai.wrap("gemini-generate-text", generateText, {
+      model: google( "gemini-2.5-flash"),
+      system: systemPrompt,
+      prompt: userPrompt,
+      experimental_telemetry: {
+        isEnabled: true,
+        recordInputs: true,
+        recordOutputs: true,
+      },
+    });
+
+    const text = steps[0].content[0].type === "text" ? steps[0].content[0].text : "";
+
+   await publish(GeminiChannel().status({ nodeId, status: "success" }));
+
+    return { ...context, [data.variableName]: text };
+  } catch (e) {
+    await publish(GeminiChannel().status({ nodeId, status: "error" }));
+    throw e;
+  }
+};

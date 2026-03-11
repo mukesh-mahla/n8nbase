@@ -10,8 +10,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.43",
     "@base-ui/react": "^1.2.0",
-    "@google/genai": "^1.44.0",
     "@hookform/resolvers": "^5.2.2",
     "@inngest/realtime": "^0.4.6",
     "@paralleldrive/cuid2": "^3.3.0",

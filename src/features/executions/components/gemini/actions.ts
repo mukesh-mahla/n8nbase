@@ -1,14 +1,15 @@
 "use server"
 
 import { getSubscriptionToken,type Realtime } from "@inngest/realtime"
-import { httpRequestChannel } from "@/inngest/channels/http-request"
+
 import { inngest } from "@/inngest/client"
+import { GeminiChannel } from "@/inngest/channels/gemini"
 
-export type HttpRequestToken = Realtime.Token<
-typeof httpRequestChannel,["status"]>
+export type GeminiToken = Realtime.Token<
+typeof GeminiChannel,["status"]>
 
-export async function fetchHttpRequestRealtimeToken(): Promise<HttpRequestToken> {
-    const token = await getSubscriptionToken(inngest,{channel:httpRequestChannel(),topics: ["status"]})
+export async function fetchGeminiRealtimeToken(): Promise<GeminiToken> {
+    const token = await getSubscriptionToken(inngest,{channel:GeminiChannel(),topics: ["status"]})
 
     return token
 }

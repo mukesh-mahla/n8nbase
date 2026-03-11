@@ -14,7 +14,7 @@ const GEMINI_MODELS = [
     "gemini-2.0-flash",
     "gemini-1.5-flash",
     "gemini-1.5-pro",
-    "gemini-2.0-pro",
+    "gemini-2.5-flash",
     "gemini-1.0-pro"
 ] as const
 
@@ -133,7 +133,7 @@ export const GeminiDialog = ({
                                         </SelectContent>
                                     </Select>
                                     <FormDescription>
-                                        the Google Gemini model to use for Completion 
+                                        the Google Gemini model to use for Completion . some model may not work because of your subscription or updates in gemini model
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

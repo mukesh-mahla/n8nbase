@@ -3,6 +3,7 @@ import { NodeExecuter } from "../types";
 import { manualTriggerExecuter } from "@/features/triggers/components/manual-trigger/executer";
 import { httpRequestExecuter } from "../components/http-request/executer";
 import { googleFormTriggerExecuter } from "@/features/triggers/components/google-form-trigger/executer";
+import { GeminiExecuter } from "../components/gemini/executer";
 
 
 export const execuerRegistry: Record<NodeType,NodeExecuter<any>> = {
@@ -10,7 +11,10 @@ export const execuerRegistry: Record<NodeType,NodeExecuter<any>> = {
 [NodeType.INITIAL]:manualTriggerExecuter,
 [NodeType.HTTP_REQUEST]:httpRequestExecuter,
 [NodeType.GOOGLE_FORM_TRIGGER]:googleFormTriggerExecuter ,
-[NodeType.STRIPE_TRIGGER]:googleFormTriggerExecuter // to be changed when we have stripe trigger executer
+[NodeType.STRIPE_TRIGGER]:googleFormTriggerExecuter,// to be changed when we have stripe trigger executer
+[NodeType.GEMINI]:GeminiExecuter ,
+[NodeType.ANTHROPIC]:GeminiExecuter,
+[NodeType.OPENAI]:GeminiExecuter
 }
 
 export const getExecuter = (type: NodeType):NodeExecuter =>{
