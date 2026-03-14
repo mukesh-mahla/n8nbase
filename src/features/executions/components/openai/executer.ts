@@ -65,6 +65,7 @@ export const OpenaAiExecuter: NodeExecuter<OpenAiData> = async ({
   })
 
   if(!credential){
+     await publish(OpenAiChannel().status({ nodeId, status: "error" }));
      throw new NonRetriableError("OPENAI Node credential not found ")
   }
 

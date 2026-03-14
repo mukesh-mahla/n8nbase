@@ -63,6 +63,7 @@ export const GeminiExecuter: NodeExecuter<GeminiData> = async ({
   })
 
   if(!credential){
+    await publish(GeminiChannel().status({ nodeId, status: "error" }));
     throw new NonRetriableError("Gemini Node credential not found ")
 
   }
