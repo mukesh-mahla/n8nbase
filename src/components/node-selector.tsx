@@ -69,6 +69,18 @@ const executionNodes: NodeTypeOption[] = [
         label: "OpenAi",
         description: "Make an api call to Anthropic",
         icon: "/openai.svg"
+    },
+    {
+        type: NodeType.DISCORD,
+        label: "Discord",
+        description: "Send a Message to Discord",
+        icon: "/discord.svg"
+    },
+    {
+        type: NodeType.SLACK,
+        label: "Slack",
+        description: "Send a Message to Slack",
+        icon: "/slack.svg"
     }
 ]
 

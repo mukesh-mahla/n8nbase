@@ -6,6 +6,8 @@ import { googleFormTriggerExecuter } from "@/features/triggers/components/google
 import { GeminiExecuter } from "../components/gemini/executer";
 import { AnthropicExecuter } from "../components/anthropic/executer";
 import { OpenaAiExecuter } from "../components/openai/executer";
+import { DiscordExecuter } from "../components/discord/executer";
+import { SlackExecuter } from "../components/slack/executer";
 
 
 export const execuerRegistry: Record<NodeType,NodeExecuter<any>> = {
@@ -16,7 +18,9 @@ export const execuerRegistry: Record<NodeType,NodeExecuter<any>> = {
 [NodeType.STRIPE_TRIGGER]:googleFormTriggerExecuter,// to be changed when we have stripe trigger executer
 [NodeType.GEMINI]:GeminiExecuter ,
 [NodeType.ANTHROPIC]:AnthropicExecuter,
-[NodeType.OPENAI]:OpenaAiExecuter
+[NodeType.OPENAI]:OpenaAiExecuter,
+[NodeType.DISCORD]:DiscordExecuter,
+[NodeType.SLACK]:SlackExecuter
 }
 
 export const getExecuter = (type: NodeType):NodeExecuter =>{

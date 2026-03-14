@@ -97,7 +97,7 @@ export const GeminiDialog = ({
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handelSubmit)}
-                        className="space-y-8 mt-4"
+                        className="space-y-2"
                     >
 
                         <FormField control={form.control}

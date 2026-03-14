@@ -13,6 +13,8 @@ import { StripeTriggerChannel } from "./channels/Stripe-trigger";
 import { GeminiChannel } from "./channels/gemini";
 import { AnthropicChannel } from "./channels/anthropic";
 import { OpenAiChannel } from "./channels/openai";
+import { DiscordChannel } from "./channels/Discord";
+import { SlackChannel } from "./channels/slack";
 
 
  
@@ -21,7 +23,7 @@ export const executeWorkflow = inngest.createFunction(
     retries:0 // change in produnction
    },
   { event: "workflow/execute.workflow"
-    ,channel:[httpRequestChannel(),manualTriggerChannel(),googleFormTriggerChannel(),StripeTriggerChannel(),GeminiChannel(),AnthropicChannel(),OpenAiChannel()]
+    ,channel:[httpRequestChannel(),manualTriggerChannel(),googleFormTriggerChannel(),StripeTriggerChannel(),GeminiChannel(),AnthropicChannel(),OpenAiChannel(),DiscordChannel(),SlackChannel()]
    },
 
  
@@ -45,7 +47,18 @@ export const executeWorkflow = inngest.createFunction(
         return topologicalSort(workflow.nodes,workflow.connections)
     })
 
-    // initialize the context with any initial data from the trigger
+    const userId = await step.run("get-userId",async()=>{
+      const workflow = await prisma.workflow.findUniqueOrThrow({
+        where:{
+            id:workflowId
+          },
+          select:{
+            userId:true
+          }
+        })
+
+        return workflow.userId
+    })
 
 
     let context = event.data.initialData || {}
@@ -54,6 +67,7 @@ export const executeWorkflow = inngest.createFunction(
       const executer = getExecuter(node.type as NodeType)
       context  = await executer({
         data:node.data as Record<string,unknown>,
+        userId,
         context,
         step,
         nodeId:node.id,
