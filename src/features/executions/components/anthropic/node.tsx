@@ -9,6 +9,7 @@ import { useNodeStatus } from "../../hooks/use-node-status"
 import { fetchAnthropicRealtimeToken } from "./actions"
 type AnthropicNodeData = {
      variableName?:string
+     credentialId:string
     model?:any
     systemPrompt?:string,
     userPrompt?:string

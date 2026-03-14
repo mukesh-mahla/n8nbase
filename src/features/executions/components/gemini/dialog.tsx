@@ -9,6 +9,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useEffect } from "react"
+import { useCredentialByType } from "@/features/credentials/hooks/use-credntials"
+import { CredentialType } from "@prisma/client"
+import Image from "next/image"
+
 
 const GEMINI_MODELS = [
     "gemini-2.0-flash",
@@ -18,10 +22,13 @@ const GEMINI_MODELS = [
     "gemini-1.0-pro"
 ] as const
 
+
+
 const formSchema = z.object({
     variableName: z.string().min(1, { message: "variable name required" }).regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/, {
         message: "variabel name must start with a letter or underscore and contains only letters,numbers and underscore "
     }),
+    credentialId: z.string().min(1, "Credential is Required"),
     model: z.enum(GEMINI_MODELS),
     systemPrompts: z.string().optional(),
     userPrompt: z.string().min(1, "User Propmt is Required")
@@ -44,10 +51,13 @@ export const GeminiDialog = ({
     defaultValues = {}
 }: ManualTriggerDialogProp) => {
 
+    const { data: credentials, isLoading: isLoadingCredentials } = useCredentialByType(CredentialType.GEMINI)
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             variableName: defaultValues.variableName || "",
+            credentialId: defaultValues.credentialId || "",
             model: defaultValues.model || GEMINI_MODELS[0],
             systemPrompts: defaultValues.systemPrompts || "",
             userPrompt: defaultValues.userPrompt || ""
@@ -58,6 +68,7 @@ export const GeminiDialog = ({
         if (open) {
             form.reset({
                 variableName: defaultValues.variableName || "",
+                credentialId: defaultValues.credentialId || "",
                 model: defaultValues.model || GEMINI_MODELS[0],
                 systemPrompts: defaultValues.systemPrompts || "",
                 userPrompt: defaultValues.userPrompt || ""
@@ -109,7 +120,41 @@ export const GeminiDialog = ({
                                 </FormItem>
                             )}
                         />
-                         <FormField
+                        <FormField
+                            control={form.control}
+                            name="credentialId"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Gemini Credentials </FormLabel>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                        disabled={isLoadingCredentials || !credentials?.length}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="select a credential" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {credentials?.map((options) => (
+                                                <SelectItem
+                                                    key={options.id}
+                                                    value={options.id}
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        <Image src={"/gemini.svg"} alt={"Gemini"} width={16} height={16} />
+                                                        {options.name}
+                                                    </div>
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
                             control={form.control}
                             name="model"
                             render={({ field }) => (
@@ -127,8 +172,8 @@ export const GeminiDialog = ({
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            {GEMINI_MODELS.map((model)=>
-                                            <SelectItem key={model} value={model}>{model}</SelectItem>
+                                            {GEMINI_MODELS.map((model) =>
+                                                <SelectItem key={model} value={model}>{model}</SelectItem>
                                             )}
                                         </SelectContent>
                                     </Select>

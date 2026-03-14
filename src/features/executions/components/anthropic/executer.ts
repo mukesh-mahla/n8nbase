@@ -5,6 +5,7 @@ import Handlebars from "handlebars";
 import { anthropic } from '@ai-sdk/anthropic';
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { AnthropicChannel } from "@/inngest/channels/anthropic";
+import prisma from "@/lib/db";
 
 
 Handlebars.registerHelper("json", (context) => {
@@ -15,14 +16,13 @@ Handlebars.registerHelper("json", (context) => {
 
 type AnthropicData = {
   variableName: string;
+  credentialId?: string;
   model?: string;
   systemPrompt?: string;
   userPrompt?: string;
 };
 
-const Anthropic = createAnthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || "",
-});
+
 
 export const AnthropicExecuter: NodeExecuter<AnthropicData> = async ({
   data,
@@ -36,12 +36,16 @@ export const AnthropicExecuter: NodeExecuter<AnthropicData> = async ({
 
   if (!data.variableName) {
     await publish(AnthropicChannel().status({ nodeId, status: "error" }));
-    throw new NonRetriableError("Gemini Node variable name not configured ");
+    throw new NonRetriableError("Anthropic Node variable name not configured ");
+  }
+  if (!data.credentialId) {
+    await publish(AnthropicChannel().status({ nodeId, status: "error" }));
+    throw new NonRetriableError("Anthropic Node Credential not configured ");
   }
 
     if (!data.userPrompt) {
     await publish(AnthropicChannel().status({ nodeId, status: "error" }));
-    throw new NonRetriableError("Gemini Node userPrompt not configured ");
+    throw new NonRetriableError("Anthropic Node userPrompt not configured ");
   }
 
 
@@ -50,6 +54,21 @@ export const AnthropicExecuter: NodeExecuter<AnthropicData> = async ({
     : "you are a helpful assistant";
 
   const userPrompt = Handlebars.compile(data.userPrompt)(context);
+
+  const credential = await step.run("get-credential",()=>{
+    return prisma.credential.findUnique({
+      where:{
+        id:data.credentialId
+      }
+    })})
+
+  if(!credential){
+    throw new NonRetriableError("Anthropic Node credential not found ")
+  }
+
+  const Anthropic = createAnthropic({
+  apiKey: credential.value,
+});
   
 
   try {
