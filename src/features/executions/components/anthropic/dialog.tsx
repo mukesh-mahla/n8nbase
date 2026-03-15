@@ -94,7 +94,7 @@ export const AnthropicDialog = ({
                 </DialogHeader>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handelSubmit)}
-                        className="space-y-8 mt-4"
+                        className="space-y-2 "
                     >
 
                         <FormField control={form.control}
@@ -147,6 +147,7 @@ export const AnthropicDialog = ({
                                                                     ))}
                                                                 </SelectContent>
                                                             </Select>
+                                                            <FormDescription>Create a Credential First If you dont have one</FormDescription>
                                                             <FormMessage />
                                                         </FormItem>
                                                     )}
@@ -194,7 +195,7 @@ export const AnthropicDialog = ({
                                     <FormControl>
                                         <Textarea
                                             {...field}
-                                            className="min-h-[80px] font-mono text-sm"
+                                            className="min-h-[60px] font-mono text-sm"
                                             placeholder={
                                                 "you are a help full assistant"
                                             }

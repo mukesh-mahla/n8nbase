@@ -115,8 +115,8 @@ export function NodeSelector({ open, onOpenChange, children }: NodeSelectorProps
             const centerY = window.innerHeight / 2
 
             const flowPosition = screenToFlowPosition({
-                x: centerX + Math.random() - 0.5 * 200,
-                y: centerY + Math.random() - 0.5 * 200
+                x: centerX + (Math.random() - 0.5) * 200,
+                y: centerY + (Math.random() - 0.5) * 200
             })
 
             const newNode = {
