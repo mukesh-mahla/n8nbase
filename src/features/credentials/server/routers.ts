@@ -2,9 +2,9 @@ import { PAGINATION } from "@/config/constant";
 
 import prisma from "@/lib/db";
 import { encrypt } from "@/lib/encryption";
-import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
+import { createTRPCRouter,  protectedProcedure } from "@/trpc/init";
 
-import  {CredentialType} from "@prisma/client";
+import  {CredentialType} from "@/../generated/prisma";
 
 
 import z from "zod";

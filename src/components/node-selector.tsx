@@ -2,7 +2,7 @@
 
 import { createId } from '@paralleldrive/cuid2'
 import { useReactFlow } from '@xyflow/react'
-import { Divide, GlobeIcon, MousePointerIcon } from 'lucide-react'
+import {  GlobeIcon, MousePointerIcon } from 'lucide-react'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
 import {
@@ -14,8 +14,9 @@ import {
     SheetTitle,
 } from '@/components/ui/sheet'
 
-import { NodeType } from '@prisma/client'
+import { NodeType } from '@/../generated/prisma'
 import { Separator } from './ui/separator'
+import Image from 'next/image'
 
 export type NodeTypeOption = {
     type: NodeType
@@ -159,7 +160,7 @@ export function NodeSelector({ open, onOpenChange, children }: NodeSelectorProps
                          border-l-2 border-transparent hover:border-l-primary '>
 
                             <div className='flex items-center gap-6 w-full overflow-hidden'>
-                                {typeof Icon === "string" ? (<img src={Icon} alt={nodeType.label}
+                                {typeof Icon === "string" ? (<Image height={16} width={16} src={Icon} alt={nodeType.label}
                                     className='size-5 object-contain rounded-sm' />) : (<Icon className='size-5' />)}
 
                                 <div className='flex flex-col items-start text-left'>
@@ -176,7 +177,7 @@ export function NodeSelector({ open, onOpenChange, children }: NodeSelectorProps
                         const Icon = nodeType.icon
                         return <div key={nodeType.type} onClick={() => { handelNodeSelect(nodeType) }} className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary '>
                             <div className='flex items-center gap-6 w-full overflow-hidden'>
-                                {typeof Icon === "string" ? (<img src={Icon} alt={nodeType.label} className='size-5 object-contain rounded-sm' />) : (<Icon className='size-5' />)}
+                                {typeof Icon === "string" ? (<Image height={16} width={16} src={Icon} alt={nodeType.label} className='size-5 object-contain rounded-sm' />) : (<Icon className='size-5' />)}
                                 <div className='flex flex-col items-start text-left'>
                                     <span className='font-medium text-sm'>{nodeType.label}</span>
                                     <span className='text-xs text-muted-foreground'>{nodeType.description}</span>

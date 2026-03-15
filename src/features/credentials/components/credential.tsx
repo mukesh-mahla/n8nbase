@@ -1,8 +1,8 @@
 "use client"
 
-import { CredentialType } from "@prisma/client"
+import { CredentialType } from "@/../generated/prisma"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+
 import { useCreateCredential, useUpdateCredential, useSuspanseCredential } from "../hooks/use-credntials"
 import { useUpgradeModal } from "@/hooks/use-upgrade-modal"
 import { useForm } from "react-hook-form"
@@ -16,6 +16,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+
+
 
 const formSchema = z.object({
     name: z.string().min(1, "name is required"),
@@ -54,7 +56,7 @@ interface CredentialFormProps {
 }
 
 export const CredentialForm = ({ initialData }: CredentialFormProps) => {
-    const router = useRouter()
+    
     const createCredential = useCreateCredential()
     const updateCredential = useUpdateCredential()
     const { handelError, modal } = useUpgradeModal()

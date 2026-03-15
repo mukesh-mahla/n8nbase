@@ -11,7 +11,7 @@ import { nodeComponents } from '@/config/node-components';
 import { AddNodeButton } from './add-node-button';
 import { useSetAtom } from 'jotai';
 import { editorAtom } from './atoms';
-import { NodeType } from '@prisma/client';
+import { NodeType } from "@/../generated/prisma"
 import { ExecuteWorkflowButton } from './execute-workflow-button';
 
 

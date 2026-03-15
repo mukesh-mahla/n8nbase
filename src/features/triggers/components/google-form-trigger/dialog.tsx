@@ -29,6 +29,7 @@ export const GoogleFormTriggerDialog = ({ open, onOpenChange }: GoogleFormTrigge
             toast.success("webhook Url copied to clipboard")
         } catch (err) {
             toast.error("failed to copy url")
+            console.log(err)
         }
     }
 
@@ -85,6 +86,7 @@ export const GoogleFormTriggerDialog = ({ open, onOpenChange }: GoogleFormTrigge
                             toast.success("Script Copied to Clipboard")
                         }catch(err){
                             toast.error("Failed to Copy the Script")
+                            console.log(err)
                         }
                        }}
                        >

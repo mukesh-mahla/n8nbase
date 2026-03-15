@@ -3,7 +3,7 @@ import { EditorHeader } from "@/features/editor/components/editorHeader"
 import { prefetchWorkflow } from "@/features/workflows/server/prefetch"
 import { requireAuth } from "@/lib/auth-utils"
 import { HydrateClient } from "@/trpc/server"
-import { Divide } from "lucide-react"
+
 import { Suspense } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 

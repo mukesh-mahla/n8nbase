@@ -6,7 +6,7 @@ import Handlebars from "handlebars";
 
 
 
-import { DiscordChannel } from "@/inngest/channels/Discord";
+
 import ky from "ky";
 import { SlackChannel } from "@/inngest/channels/slack";
 

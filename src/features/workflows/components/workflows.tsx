@@ -6,7 +6,7 @@ import { useUpgradeModal } from "@/hooks/use-upgrade-modal"
 import { useRouter } from "next/navigation"
 import { useWorkflowsParams } from "../hooks/use-workflows-params"
 import { UseEntitySearch } from "../hooks/use-entity-search"
-import type { Workflow } from "@prisma/client"
+import type { Workflow } from "@/../generated/prisma"
 import { WorkflowIcon } from "lucide-react"
 
 export const WorkflowsSearch = ()=>{

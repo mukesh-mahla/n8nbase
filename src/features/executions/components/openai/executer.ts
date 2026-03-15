@@ -2,7 +2,7 @@ import type { NodeExecuter } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import { generateText } from "ai";
 import Handlebars from "handlebars";
-import { openai } from '@ai-sdk/openai';
+
 import { createOpenAI } from '@ai-sdk/openai';
 import {OpenAiChannel  } from "@/inngest/channels/openai";
 import prisma from "@/lib/db";

@@ -5,10 +5,10 @@ import { useSuspanseExecutions } from "../hooks/use-executions"
 
 import { useExecutionsParams } from "../hooks/use-executions-params"
 
-import type { Execution } from "@prisma/client"
+import type { Execution } from "@/../generated/prisma"
 
 
-import { ExecutionStatus } from "@prisma/client"
+import { ExecutionStatus } from "@/../generated/prisma"
 import { CheckCircle2Icon, ClockIcon, Loader2Icon, XCircleIcon } from "lucide-react"
 
 

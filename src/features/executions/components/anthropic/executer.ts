@@ -2,7 +2,7 @@ import type { NodeExecuter } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import { generateText } from "ai";
 import Handlebars from "handlebars";
-import { anthropic } from '@ai-sdk/anthropic';
+
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { AnthropicChannel } from "@/inngest/channels/anthropic";
 import prisma from "@/lib/db";

@@ -1,4 +1,4 @@
-import { AlertTriangleIcon, Divide, Loader2Icon, MoreVerticalIcon, PackageOpenIcon, PlusIcon, SearchIcon, TrashIcon } from "lucide-react";
+import { AlertTriangleIcon,  Loader2Icon, MoreVerticalIcon, PackageOpenIcon, PlusIcon, SearchIcon, TrashIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { ReactNode } from "react";

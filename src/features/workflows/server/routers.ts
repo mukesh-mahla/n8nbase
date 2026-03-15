@@ -2,8 +2,8 @@ import { PAGINATION } from "@/config/constant";
 
 import { sendExecutions } from "@/inngest/utils";
 import prisma from "@/lib/db";
-import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init";
-import {  NodeType } from "@prisma/client";
+import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import {  NodeType } from "@/../generated/prisma";
 
 import type { Node } from "@xyflow/react";
 import type { Edge } from "@xyflow/react";

@@ -7,10 +7,11 @@ import { BaseExecutionNode } from "../base-execution-node"
 import { AnthropicDialog,AnthropicFormValues } from "./dialog"
 import { useNodeStatus } from "../../hooks/use-node-status"
 import { fetchAnthropicRealtimeToken } from "./actions"
+
 type AnthropicNodeData = {
      variableName?:string
      credentialId:string
-    model?:any
+    model?: any
     systemPrompt?:string,
     userPrompt?:string
 }

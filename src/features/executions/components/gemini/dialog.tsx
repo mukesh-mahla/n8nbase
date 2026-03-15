@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useEffect } from "react"
 import { useCredentialByType } from "@/features/credentials/hooks/use-credntials"
-import { CredentialType } from "@prisma/client"
+import { CredentialType } from "@/../generated/prisma"
 import Image from "next/image"
 
 

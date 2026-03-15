@@ -1,7 +1,7 @@
 
 
 import { useTRPC } from "@/trpc/client"
-import { useMutation, useQueries, useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
+import { useMutation,  useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
 
 import { toast } from "sonner"
 import { useWorkflowsParams } from "./use-workflows-params"

@@ -5,10 +5,10 @@ import {  useRemoveCredential, useSuspanseCredentials } from "../hooks/use-credn
 import { useRouter } from "next/navigation"
 import { useCredentialParams } from "../hooks/use-credential-params"
 import { UseEntitySearch } from "../hooks/use-entity-search"
-import  type {Credential } from "@prisma/client"
+import  type {Credential } from "@/../generated/prisma"
 
 import Image from "next/image"
-import {CredentialType} from "@prisma/client"
+import {CredentialType} from "@/../generated/prisma"
 export const CredentialsSearch = ()=>{
     const [params,setParams] = useCredentialParams()
     const {searchValue,onSearchChange} = UseEntitySearch({
