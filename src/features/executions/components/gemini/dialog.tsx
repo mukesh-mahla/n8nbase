@@ -150,6 +150,7 @@ export const GeminiDialog = ({
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                    <FormDescription>Create a Credential First If you dont have one</FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}

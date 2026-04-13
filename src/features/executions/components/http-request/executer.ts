@@ -45,6 +45,7 @@ export const httpRequestExecuter:NodeExecuter<httpRequestData> = async ({data,co
    const options:kyOptions = {method}
 
    if(["POST","PUT","PATCH"].includes(method) && data.body){
+      
       const resolved = Handlebars.compile(data.body || "{}")(context)
       JSON.parse(resolved)
      
